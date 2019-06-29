@@ -27,8 +27,6 @@ public class CategoriaResource {
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = service.buscar(id);
 		return ResponseEntity.ok().body(obj);
-		
-		
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
@@ -46,4 +44,13 @@ public class CategoriaResource {
 		
 		return ResponseEntity.noContent().build();
 	}
+
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }
+
+
+
