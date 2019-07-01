@@ -2,6 +2,8 @@ package com.andersonvieira.binary.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -9,16 +11,29 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.andersonvieira.binary.domain.Cidade;
 import com.andersonvieira.binary.domain.Cliente;
+import com.andersonvieira.binary.domain.Endereco;
+import com.andersonvieira.binary.domain.enums.TipoCliente;
 import com.andersonvieira.binary.dto.ClienteDTO;
+import com.andersonvieira.binary.dto.ClienteNewDTO;
+import com.andersonvieira.binary.repositories.CidadeRepository2;
 import com.andersonvieira.binary.repositories.ClienteRepository;
+import com.andersonvieira.binary.repositories.EnderecoRepository;
 import com.andersonvieira.binary.services.exceptions.DataIntegrityException;
 import com.andersonvieira.binary.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
+	
 	@Autowired
 	private ClienteRepository repo;
+	
+	@Autowired
+	private CidadeRepository2 cidadeRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public Cliente buscar(Integer id) {
 		Cliente obj = repo.findOne(id);
@@ -28,6 +43,15 @@ public class ClienteService {
 		}
 		return obj;
 	}
+	
+	@Transactional
+	public Cliente insert(Cliente obj) {
+		obj.setId(null);
+		obj = repo.save(obj);
+		enderecoRepository.save(obj.getEnderecos());
+		return obj;
+	}
+	
 	
 	public Cliente update(Cliente obj) {
 		Cliente newObj = buscar(obj.getId());
@@ -41,7 +65,7 @@ public class ClienteService {
 			repo.delete(id);
 		}
 		catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possivel excluir uma categoria que possui produtos");
+			throw new DataIntegrityException("Não é possivel excluir porque há entidades relacionadas");
 		}
 	}
 	
@@ -56,6 +80,21 @@ public class ClienteService {
 	
 	public Cliente fromDTO (ClienteDTO objDto) {
 		return new  Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+	}
+	
+	public Cliente fromDTO(ClienteNewDTO objDto) {
+		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
+		Cidade cid = cidadeRepository.findOne(objDto.getCidadeId());
+		Endereco end = new Endereco(null, objDto.getLogradoruro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cli, cid);
+		cli.getEnderecos().add(end);
+		cli.getTelefones().add(objDto.getTelefone1());
+		if (objDto.getTelefone1()!=null) {
+			cli.getTelefones().add(objDto.getTelefone2());
+		}
+		if (objDto.getTelefone1()!=null) {
+			cli.getTelefones().add(objDto.getTelefone3());
+		}
+		return cli;
 	}
 	
 	private void updateData(Cliente newObj, Cliente obj) {
