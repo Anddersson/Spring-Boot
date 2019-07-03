@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.andersonvieira.binary.domain.Categoria;
 import com.andersonvieira.binary.domain.Pedido;
 import com.andersonvieira.binary.services.PedidoService;
 
