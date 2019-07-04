@@ -9,6 +9,7 @@ import com.andersonvieira.binary.domain.ItemPedido;
 import com.andersonvieira.binary.domain.PagamentoComBoleto;
 import com.andersonvieira.binary.domain.Pedido;
 import com.andersonvieira.binary.domain.enums.EstadoPagamento;
+import com.andersonvieira.binary.repositories.ClienteRepository;
 import com.andersonvieira.binary.repositories.ItemPedidoRepository;
 import com.andersonvieira.binary.repositories.PagamentoRepository;
 import com.andersonvieira.binary.repositories.PedidoRepository;
@@ -32,6 +33,9 @@ public class PedidoService {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
 	public Pedido buscar(Integer id) {
 		Pedido obj = repo.findOne(id);
 		if (obj == null) {
@@ -44,6 +48,7 @@ public class PedidoService {
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		obj.setCliente(clienteRepository.findOne(obj.getCliente().getId()));
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		if(obj.getPagamento() instanceof PagamentoComBoleto) {
@@ -54,10 +59,12 @@ public class PedidoService {
 		pagamentoRepository.save(obj.getPagamento());
 		for (ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.0);
-			ip.setPreco(produtoRepository2.findOne(ip.getProduto().getId()).getPreco());
+			ip.setproduto(produtoRepository2.findOne(ip.getProduto().getId()));
+			ip.setPreco(ip.getProduto().getPreco());
 			ip.setpedido(obj);
 		}
 		itemPedidoRepository.save(obj.getItens());
+		System.out.println(obj);
 		return obj;
 	}
 }
