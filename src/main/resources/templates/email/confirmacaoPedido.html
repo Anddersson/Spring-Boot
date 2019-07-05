@@ -3,9 +3,36 @@
 <head>
 <title th:remove="all">Order Confirmation</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<style type="text/css">
+
+/* usar e ajustar */
+
+textarea, input[type="text"], ul, th, td, table, select, fieldset.elist > legend {
+  border: 2px black solid;
+  border-radius: 10px;
+  height: 32px;
+  font-family: Tahoma;
+  font-size: 14px;
+  color: black;
+}
+
+
+fieldset {
+  border: 2px black solid;
+  border-radius: 20px;
+
+  color: black;
+}
+
+</style>
 </head>
+
 <body>
-	<div>
+<fieldset>
+	<legend>CONFIRMAÇÃO DE PEDIDO</legend>
+	<div align="center">
+		
 		<h1>
 			Pedido número: <span th:text="${pedido.id}"> </span>
 		</h1>
@@ -45,5 +72,10 @@
 'POINT', 2, 'COMMA')}"></span>
 		</p>
 	</div>
+	</fieldset>
 </body>
 </html>
+
+
+
+
