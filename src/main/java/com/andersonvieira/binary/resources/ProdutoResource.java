@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +16,7 @@ import com.andersonvieira.binary.dto.ProdutoDTO;
 import com.andersonvieira.binary.resources.utils.URL;
 import com.andersonvieira.binary.services.ProdutoService;
 
-@Controller
+
 @RestController
 @RequestMapping(value="/produtos")
 public class ProdutoResource {
@@ -27,11 +26,11 @@ public class ProdutoResource {
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public ResponseEntity<Produto> find(@PathVariable Integer id) {
-		Produto obj = service.buscar(id);
+		Produto obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@RequestMapping(value ="/page", method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<Page<ProdutoDTO>> findPage(
 			@RequestParam(value = "nome", defaultValue="") String nome, 
 			@RequestParam(value = "categorias", defaultValue="") String categorias, 
@@ -40,7 +39,7 @@ public class ProdutoResource {
 			@RequestParam(value = "orderBy", defaultValue="nome") String orderBy, 
 			@RequestParam(value = "direction", defaultValue="ASC") String direction) {
 		String nomeDecoded = URL.decodeParam(nome);
-		List<Integer> ids = URL.decodeInList(categorias);
+		List<Integer> ids = URL.decodeIntList(categorias);
 		Page<Produto> list = service.search(nomeDecoded, ids, page, linesPerPage, orderBy, direction);
 		Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));
 		return ResponseEntity.ok().body(listDto);

@@ -64,7 +64,7 @@ public class DBService {
 		Categoria cat5 = new Categoria(null , "Jardinagem");
 		Categoria cat6 = new Categoria(null , "Decoração");
 		Categoria cat7 = new Categoria(null , "Perfumaria");
-		Categoria cat8 = new Categoria(null , "Teste");
+	
 		
 		
 		
@@ -185,7 +185,7 @@ public class DBService {
 				p39, p40, p41, p42, p43, p44, p45, p46, p47, p48, p49, p50));
 				
 		
-		categoriaRepository.save(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8));
+		categoriaRepository.save(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.save(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 		
 		produtoRepository.save(Arrays.asList(p12, p13, p14, p15, p16, p17, p18, p19, p20,
