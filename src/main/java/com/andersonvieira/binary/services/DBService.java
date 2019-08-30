@@ -57,13 +57,15 @@ public class DBService {
 	private ItemPedidoRepository itemPedidoRepository;
 	
 	public void instantiateDatabase() throws ParseException {
-		Categoria cat1 = new Categoria(null , "Informática");
-		Categoria cat2 = new Categoria(null , "Escritório");
-		Categoria cat3 = new Categoria(null , "Cama. mesa e banho");
-		Categoria cat4 = new Categoria(null , "Eletrônicos");
-		Categoria cat5 = new Categoria(null , "Jardinagem");
-		Categoria cat6 = new Categoria(null , "Decoração");
-		Categoria cat7 = new Categoria(null , "Perfumaria");
+		Categoria cat1 = new Categoria(null , "Shampoo");
+		Categoria cat2 = new Categoria(null , "Condicionador");
+		Categoria cat3 = new Categoria(null , "Tratamento");
+		Categoria cat4 = new Categoria(null , "Finalizador");
+		Categoria cat5 = new Categoria(null , "Leave-in e creme para pentear");
+		Categoria cat6 = new Categoria(null , "Modelador");
+		Categoria cat7 = new Categoria(null , "Coloração");
+		Categoria cat8 = new Categoria(null , "Escova progressiva");
+		Categoria cat9 = new Categoria(null , "Kits de tratamento");
 	
 		
 		
@@ -127,6 +129,8 @@ public class DBService {
 		cat5.getProdutos().addAll(Arrays.asList(p8));
 		cat6.getProdutos().addAll(Arrays.asList(p9, p10));
 		cat7.getProdutos().addAll(Arrays.asList(p11));
+		cat8.getProdutos().addAll(Arrays.asList(p12));
+		cat9.getProdutos().addAll(Arrays.asList(p13));
 	
 		
 		p1.getCategorias().addAll(Arrays.asList(cat1, cat4));
@@ -140,8 +144,8 @@ public class DBService {
 		p9.getCategorias().addAll(Arrays.asList(cat6));
 		p10.getCategorias().addAll(Arrays.asList(cat6));
 		p11.getCategorias().addAll(Arrays.asList(cat7));
-		p12.getCategorias().add(cat1);
-		p13.getCategorias().add(cat1);
+		p12.getCategorias().addAll(Arrays.asList(cat8));
+		p13.getCategorias().addAll(Arrays.asList(cat9));
 		p14.getCategorias().add(cat1);
 		p15.getCategorias().add(cat1);
 		p16.getCategorias().add(cat1);
@@ -180,15 +184,15 @@ public class DBService {
 		p49.getCategorias().add(cat1);
 		p50.getCategorias().add(cat1);
 		
-		cat1.getProdutos().addAll(Arrays.asList(p12, p13, p14, p15, p16, p17, p18, p19, p20,
+		cat1.getProdutos().addAll(Arrays.asList(p14, p15, p16, p17, p18, p19, p20,
 				p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p34, p35, p36, p37, p38,
 				p39, p40, p41, p42, p43, p44, p45, p46, p47, p48, p49, p50));
 				
 		
-		categoriaRepository.save(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
-		produtoRepository.save(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
+		categoriaRepository.save(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9));
+		produtoRepository.save(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13));
 		
-		produtoRepository.save(Arrays.asList(p12, p13, p14, p15, p16, p17, p18, p19, p20,
+		produtoRepository.save(Arrays.asList(p14, p15, p16, p17, p18, p19, p20,
 				p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p34, p35, p36, p37, p38,
 				p39, p40, p41, p42, p43, p44, p45, p46, p47, p48, p49, p50));
 		
@@ -210,18 +214,18 @@ public class DBService {
 		Cliente cli1 = new Cliente(null, "Andrei Costa", "andreituning@hotmail.com", "32145698788", TipoCliente.PESSOAFISICA, pe.encode("123") );
 		cli1.getTelefones().addAll(Arrays.asList("24326011","24324013"));
 		
+		
 		Cliente cli2 = new Cliente(null, "Anderson Vieira", "andvdasilva@gmail.com", "24909154019", TipoCliente.PESSOAFISICA, pe.encode("123") );
 		cli2.getTelefones().addAll(Arrays.asList("25478554","52365632"));
 		cli2.addPerfil(Perfil.ADMIN);
 		
 		
 		Endereco e1 = new Endereco(null, "Rua das Flores", "300", "Apto 203", "Jardim", "07171120", cli1, c1);
-		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "07548455", cli1, c2);
+		Endereco e2 = new Endereco(null, "Avenida_Matos", "105", "Sala 800", "Centro", "07548455", cli2, c2);
+		Endereco e3 = new Endereco(null, "Rua Ibicui", "5445", "Casa 1", "Presidente Dutra", "07172152", cli1, c1);
 		
-		Endereco e3 = new Endereco(null, "Rua Ibicui", "5445", "Casa 1", "Presidente Dutra", "07172152", cli2, c1);
-		
-		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
-		cli1.getEnderecos().addAll(Arrays.asList(e3));
+		cli1.getEnderecos().addAll(Arrays.asList(e1,e3));
+		cli1.getEnderecos().addAll(Arrays.asList(e2));
 		
 		clienteRepository.save(Arrays.asList(cli1, cli2));
 		enderecoRepository.save(Arrays.asList(e1, e2, e3));

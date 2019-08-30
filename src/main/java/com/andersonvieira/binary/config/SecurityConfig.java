@@ -1,6 +1,5 @@
 package com.andersonvieira.binary.config;
 
-
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,49 +19,47 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.andersonvieira.binary.security.JWTAutenticationFilter;
+import com.andersonvieira.binary.security.JWTAuthenticationFilter;
 import com.andersonvieira.binary.security.JWTAuthorizationFilter;
 import com.andersonvieira.binary.security.JWTUtil;
+
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	@Autowired	
-	private Environment env;
+	@Autowired
+    private Environment env;
 	
 	@Autowired
 	private JWTUtil jwtUtil;
 	
-	public static final String[] PUBLIC_MATCHERS = {
-			
+	private static final String[] PUBLIC_MATCHERS = {
 			"/h2-console/**"
-			
 	};
-	
-	public static final String[] PUBLIC_MATCHERS_GET = {
-			
+
+	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**",
 			"/categorias/**",
-			"/estados/**"
+			"/estados/**",
+			"/index/**"
 	};
-	
-	public static final String[] PUBLIC_MATCHERS_POST = {
-			
+
+	private static final String[] PUBLIC_MATCHERS_POST = {
 			"/clientes",
 			"/auth/forgot/**"
-				
 	};
-	
-	protected void configure (HttpSecurity http) throws Exception{
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
 		
-		if(Arrays.asList(env.getActiveProfiles()).contains("test")) {
-			http.headers().frameOptions().disable();
-		}
+		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
+            http.headers().frameOptions().disable();
+        }
 		
 		http.cors().and().csrf().disable();
 		http.authorizeRequests()
@@ -70,22 +67,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
 			.anyRequest().authenticated();
-		http.addFilter(new JWTAutenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
 	@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception{
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
 	
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
-		configuration.setAllowedMethods(Arrays.asList("POST","GET","PUT","DELETE","OPTIONS"));
+		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration );
+		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
 	
@@ -93,5 +90,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 }

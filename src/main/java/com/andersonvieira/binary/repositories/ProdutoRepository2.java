@@ -16,7 +16,6 @@ import com.andersonvieira.binary.domain.Produto;
 public interface  ProdutoRepository2 extends JpaRepository<Produto, Integer>{
 	
 	@Transactional(readOnly=true)
-	
 	Page<Produto> findDistintcByNomeContainingAndCategoriasIn(String nome, List<Categoria> categorias, Pageable pageRequest);
 }
 	
