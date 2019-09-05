@@ -1,5 +1,6 @@
 package com.andersonvieira.binary.config;
 
+
 import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,12 @@ import com.andersonvieira.binary.services.SmtpEmailService;
 @Configuration
 @Profile("dev")
 public class DevConfig {
-	
+
 	@Autowired
 	private DBService dbService;
 	
 	@Value("${spring.jpa.hibernate.ddl-auto}")
 	private String strategy;
-	
 	
 	@Bean
 	public boolean instantiateDatabase() throws ParseException {
@@ -30,7 +30,7 @@ public class DevConfig {
 			return false;
 		}
 		
-		dbService.instantiateDatabase();
+		dbService.instantiateTestDatabase();
 		return true;
 	}
 	

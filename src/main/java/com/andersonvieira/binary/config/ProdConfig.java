@@ -30,7 +30,7 @@ public class ProdConfig {
 			return false;
 		}
 		
-		dbService.instantiateDatabase();
+		dbService.instantiateTestDatabase();;
 		return true;
 	}
 	

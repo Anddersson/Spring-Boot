@@ -14,8 +14,10 @@ import com.andersonvieira.binary.repositories.CategoriaRepository;
 import com.andersonvieira.binary.repositories.ProdutoRepository2;
 import com.andersonvieira.binary.services.exceptions.ObjectNotFoundException;
 
+
 @Service
 public class ProdutoService {
+	
 	@Autowired
 	private ProdutoRepository2 repo;
 	
@@ -30,10 +32,12 @@ public class ProdutoService {
 		}
 		return obj;
 	}
-	
+
 	public Page<Produto> search(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		List<Categoria> categorias =  categoriaRepository.findAll(ids);
-		return repo.findDistintcByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);	
+		List<Categoria> categorias = categoriaRepository.findAll(ids);
+		return repo.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);	
 	}
 }
+
+

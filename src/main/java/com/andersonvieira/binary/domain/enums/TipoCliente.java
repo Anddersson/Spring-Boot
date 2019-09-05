@@ -1,12 +1,13 @@
 package com.andersonvieira.binary.domain.enums;
 
+
 public enum TipoCliente {
+
+	PESSOAFISICA(1, "Pessoa Física"),
+	PESSOAJURIDICA(2, "Pessoa Jurídica");
 	
-	PESSOAFISICA(1,"Pessoa Física"),
-	PESSOAJURIDICA(2,"Pessoa Jurídica");
-	
-	private  int cod;
-	private String  descricao;
+	private int cod;
+	private String descricao;
 	
 	private TipoCliente(int cod, String descricao) {
 		this.cod = cod;
@@ -17,7 +18,7 @@ public enum TipoCliente {
 		return cod;
 	}
 	
-	public String getDescricao() {
+	public String getDescricao () {
 		return descricao;
 	}
 	
@@ -37,6 +38,3 @@ public enum TipoCliente {
 	}
 	
 }
-
-
-

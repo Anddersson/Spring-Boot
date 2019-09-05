@@ -22,8 +22,10 @@ import com.andersonvieira.binary.security.UserSS;
 import com.andersonvieira.binary.services.exceptions.AuthorizationException;
 import com.andersonvieira.binary.services.exceptions.ObjectNotFoundException;
 
+
 @Service
 public class PedidoService {
+	
 	@Autowired
 	private PedidoRepository repo;
 	
@@ -45,7 +47,7 @@ public class PedidoService {
 	@Autowired
 	private EmailService emailService;
 	
-	public Pedido buscar(Integer id) {
+	public Pedido find(Integer id) {
 		Pedido obj = repo.findOne(id);
 		if (obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id
@@ -53,14 +55,14 @@ public class PedidoService {
 		}
 		return obj;
 	}
-	
+
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
 		obj.setCliente(clienteRepository.findOne(obj.getCliente().getId()));
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
-		if(obj.getPagamento() instanceof PagamentoComBoleto) {
+		if (obj.getPagamento() instanceof PagamentoComBoleto) {
 			PagamentoComBoleto pagto = (PagamentoComBoleto) obj.getPagamento();
 			boletoService.preencherPagamentoComBoleto(pagto, obj.getInstante());
 		}
@@ -68,22 +70,22 @@ public class PedidoService {
 		pagamentoRepository.save(obj.getPagamento());
 		for (ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.0);
-			ip.setproduto(produtoRepository2.findOne(ip.getProduto().getId()));
+			ip.setProduto(produtoRepository2.findOne(ip.getProduto().getId()));
 			ip.setPreco(ip.getProduto().getPreco());
-			ip.setpedido(obj);
+			ip.setPedido(obj);
 		}
 		itemPedidoRepository.save(obj.getItens());
-		emailService.sendOrderConfirmationHtmlEmail(obj);
+		emailService.sendOrderConfimationEmail(obj);;
 		return obj;
 	}
 	
-	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		UserSS user = UserService.authenticated();
-		if(user == null) {
-			throw new AuthorizationException("Acesso negado!");
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
 		}
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		Cliente cliente = clienteRepository.findOne(user.getId());
+		Cliente cliente =  clienteRepository.findOne(user.getId());
 		return repo.findByCliente(cliente, pageRequest);
 	}
 }

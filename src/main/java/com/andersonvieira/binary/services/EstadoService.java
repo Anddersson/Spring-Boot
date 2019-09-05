@@ -10,12 +10,12 @@ import com.andersonvieira.binary.repositories.EstadoRepository;
 
 @Service
 public class EstadoService {
-
+	
 	@Autowired
 	private EstadoRepository repo;
 	
-	public List<Estado> findAll(){
+	public List<Estado> findAll() {
 		return repo.findAllByOrderByNome();
 	}
-	
 }
+

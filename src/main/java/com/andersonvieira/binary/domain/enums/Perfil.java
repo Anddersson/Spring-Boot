@@ -1,12 +1,14 @@
 package com.andersonvieira.binary.domain.enums;
 
+
+
 public enum Perfil {
 	
-	ADMIN(1,"ROLE_ADMIN"),
+	ADMIN(1, "ROLE_ADMIN"),
 	CLIENTE(2, "ROLE_CLIENTE");
 	
-	private  int cod;
-	private String  descricao;
+	private int cod;
+	private String descricao;
 	
 	private Perfil(int cod, String descricao) {
 		this.cod = cod;
@@ -17,7 +19,7 @@ public enum Perfil {
 		return cod;
 	}
 	
-	public String getDescricao() {
+	public String getDescricao () {
 		return descricao;
 	}
 	
@@ -35,6 +37,5 @@ public enum Perfil {
 		
 		throw new IllegalArgumentException("Id inválido: " + cod);
 	}
-	
-}
 
+}

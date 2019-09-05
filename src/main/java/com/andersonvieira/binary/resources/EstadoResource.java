@@ -1,4 +1,4 @@
-	package com.andersonvieira.binary.resources;
+package com.andersonvieira.binary.resources;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,27 +17,27 @@ import com.andersonvieira.binary.dto.EstadoDTO;
 import com.andersonvieira.binary.services.CidadeService;
 import com.andersonvieira.binary.services.EstadoService;
 
-@RestController
-@RequestMapping(value="/estados")
-public class EstadoResource {
-
-	@Autowired
-	private EstadoService service;
-	
-	@Autowired
-	private CidadeService cidadeService;
-	
-	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<EstadoDTO>> findAll() {
-		List<Estado> list =service.findAll();
-		List<EstadoDTO> listDTO = list.stream().map(obj -> new EstadoDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
-	}	
-	
-	@RequestMapping(value = "/{estadoId}/cidades", method=RequestMethod.GET)
-	public ResponseEntity<List<CidadeDTO>> findCidades(@PathVariable Integer estadoId) {
-		List<Cidade> list = cidadeService.findByEstado(estadoId);
-		List<CidadeDTO> listDTO = list.stream().map(obj -> new CidadeDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
+	@RestController
+	@RequestMapping(value="/estados")
+	public class EstadoResource {
+		
+		@Autowired
+		private EstadoService service;
+		
+		@Autowired
+		private CidadeService cidadeService;
+		
+		@RequestMapping(method=RequestMethod.GET)
+		public ResponseEntity<List<EstadoDTO>> findAll() {
+			List<Estado> list = service.findAll();
+			List<EstadoDTO> listDto = list.stream().map(obj -> new EstadoDTO(obj)).collect(Collectors.toList());  
+			return ResponseEntity.ok().body(listDto);
+		}
+		
+		@RequestMapping(value="/{estadoId}/cidades", method=RequestMethod.GET)
+		public ResponseEntity<List<CidadeDTO>> findCidades(@PathVariable Integer estadoId) {
+			List<Cidade> list = cidadeService.findByEstado(estadoId);
+			List<CidadeDTO> listDto = list.stream().map(obj -> new CidadeDTO(obj)).collect(Collectors.toList());  
+			return ResponseEntity.ok().body(listDto);
+		}
 	}
-}

@@ -1,5 +1,6 @@
 package com.andersonvieira.binary.config;
 
+
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import com.andersonvieira.binary.security.JWTAuthenticationFilter;
 import com.andersonvieira.binary.security.JWTAuthorizationFilter;
 import com.andersonvieira.binary.security.JWTUtil;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -39,15 +39,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JWTUtil jwtUtil;
 	
 	private static final String[] PUBLIC_MATCHERS = {
-			"/h2-console/**",
-			"/index/**"
+			"/h2-console/**"
 	};
 
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/produtos/**",
 			"/categorias/**",
 			"/estados/**"
-			
 	};
 
 	private static final String[] PUBLIC_MATCHERS_POST = {

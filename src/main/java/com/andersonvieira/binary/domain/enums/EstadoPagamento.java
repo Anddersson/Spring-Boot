@@ -2,11 +2,12 @@ package com.andersonvieira.binary.domain.enums;
 
 public enum EstadoPagamento {
 	
-	PENDENTE(1,"Pendente"),
+	PENDENTE(1, "Pendente"),
 	QUITADO(2, "Quitado"),
 	CANCELADO(3, "Cancelado");
-	private  int cod;
-	private String  descricao;
+	
+	private int cod;
+	private String descricao;
 	
 	private EstadoPagamento(int cod, String descricao) {
 		this.cod = cod;
@@ -17,7 +18,7 @@ public enum EstadoPagamento {
 		return cod;
 	}
 	
-	public String getDescricao() {
+	public String getDescricao () {
 		return descricao;
 	}
 	
@@ -35,6 +36,5 @@ public enum EstadoPagamento {
 		
 		throw new IllegalArgumentException("Id inválido: " + cod);
 	}
-	
-}
 
+}

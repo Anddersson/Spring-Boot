@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.andersonvieira.binary.domain.Estado;
 
 @Repository
-public interface  EstadoRepository extends JpaRepository<Estado, Integer>{
-	
+public interface EstadoRepository extends JpaRepository<Estado, Integer> {
+
 	@Transactional(readOnly=true)
 	public List<Estado> findAllByOrderByNome();
 }

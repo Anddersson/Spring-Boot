@@ -1,5 +1,6 @@
 package com.andersonvieira.binary.services;
 
+
 import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;

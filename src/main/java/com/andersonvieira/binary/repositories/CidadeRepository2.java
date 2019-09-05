@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.andersonvieira.binary.domain.Cidade;
 
 @Repository
-public interface  CidadeRepository2 extends JpaRepository<Cidade, Integer>{
-	
+public interface CidadeRepository2 extends JpaRepository<Cidade, Integer> {
+
 	@Transactional(readOnly=true)
 	@Query("SELECT obj FROM Cidade obj WHERE obj.estado.id = :estadoId ORDER BY obj.nome")
-	public List<Cidade> findCidades(@Param("estadoId")Integer estado_id);
+	public List<Cidade> findCidades(@Param("estadoId") Integer estado_id);
 }
