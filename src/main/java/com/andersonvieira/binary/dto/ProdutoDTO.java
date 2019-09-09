@@ -11,6 +11,7 @@ public class ProdutoDTO implements Serializable {
 	private Integer id;
 	private String nome;
 	private Double preco;
+	private String categoria;
 	
 	public ProdutoDTO() {
 	}
@@ -43,5 +44,13 @@ public class ProdutoDTO implements Serializable {
 
 	public void setPreco(Double preco) {
 		this.preco = preco;
+	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 }
