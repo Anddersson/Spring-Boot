@@ -5,7 +5,9 @@ import java.io.Serializable;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.andersonvieira.binary.services.validation.ProdutoInsert;
 
+@ProdutoInsert
 public class ProdutoNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -14,11 +16,8 @@ public class ProdutoNewDTO implements Serializable {
 	private String nome;
 
 	@NotEmpty(message="Preenchimento obrigatório")
-	private String preco;
+	private Double preco;
 	
-	@NotEmpty(message="Preenchimento obrigatório")
-	private String categoria;
-
 		
 	public ProdutoNewDTO() {
 	}
@@ -31,21 +30,13 @@ public class ProdutoNewDTO implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getPreco() {
+	public Double getPreco() {
 		return preco;
 	}
 
-	public void setPreco(String preco) {
+	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
-	
-	public String getCategoria() {
-		return preco;
-	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
 
-	
 }

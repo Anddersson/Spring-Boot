@@ -9,7 +9,6 @@ import javax.validation.Payload;
 
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-
 public @interface ProdutoInsert {
 	String message() default "Erro de validação";
 
