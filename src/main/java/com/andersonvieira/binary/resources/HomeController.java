@@ -9,9 +9,9 @@ public class HomeController {
 	 * lendo a pagina index
 	 * @return
 	 */
-	@GetMapping(value = "/index")
-	public String homePage() {
-		return "index";
+	@GetMapping(value = "/")
+	public String home() {
+		return "/home";
 	}
 
 }
