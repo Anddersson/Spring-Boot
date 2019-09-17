@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.andersonvieira.binary.domain.Produto;
 import com.andersonvieira.binary.domain.enums.Perfil;
 import com.andersonvieira.binary.dto.ProdutoDTO;
+import com.andersonvieira.binary.dto.ProdutoNewDTO;
 import com.andersonvieira.binary.repositories.ProdutoRepository2;
 import com.andersonvieira.binary.security.UserSS;
 import com.andersonvieira.binary.services.exceptions.AuthorizationException;
@@ -73,7 +74,12 @@ public class ProdutoService {
 	}
 	
 	public Produto fromDTO(ProdutoDTO objDto) {
-		return new Produto(null, objDto.getNome(),objDto.getPreco());
+		return new Produto(objDto.getId(), objDto.getNome(),objDto.getPreco());
+	}
+	
+	public Produto fromDTO(ProdutoNewDTO objDto) {
+		Produto p = new Produto(null, objDto.getNome(), objDto.getPreco());
+		return p;
 	}
 	
 	private void updateData (Produto newObj, Produto obj) {

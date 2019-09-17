@@ -37,7 +37,7 @@ public class ProdutoResource {
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ProdutoNewDTO objDto) {
-		Produto obj = produtoService.fromDTO(null);
+		Produto obj = produtoService.fromDTO(objDto);
 		obj = produtoService.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
