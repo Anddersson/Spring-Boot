@@ -1,6 +1,7 @@
 package com.andersonvieira.binary.services;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,13 @@ import com.andersonvieira.binary.domain.Cidade;
 import com.andersonvieira.binary.domain.Cliente;
 import com.andersonvieira.binary.domain.Endereco;
 import com.andersonvieira.binary.domain.Estado;
+import com.andersonvieira.binary.domain.ItemPedido;
+import com.andersonvieira.binary.domain.Pagamento;
+import com.andersonvieira.binary.domain.PagamentoComBoleto;
+import com.andersonvieira.binary.domain.PagamentoComCartao;
+import com.andersonvieira.binary.domain.Pedido;
 import com.andersonvieira.binary.domain.Produto;
+import com.andersonvieira.binary.domain.enums.EstadoPagamento;
 import com.andersonvieira.binary.domain.enums.Perfil;
 import com.andersonvieira.binary.domain.enums.TipoCliente;
 import com.andersonvieira.binary.repositories.CategoriaRepository;
@@ -20,6 +27,9 @@ import com.andersonvieira.binary.repositories.CidadeRepository2;
 import com.andersonvieira.binary.repositories.ClienteRepository;
 import com.andersonvieira.binary.repositories.EnderecoRepository;
 import com.andersonvieira.binary.repositories.EstadoRepository;
+import com.andersonvieira.binary.repositories.ItemPedidoRepository;
+import com.andersonvieira.binary.repositories.PagamentoRepository;
+import com.andersonvieira.binary.repositories.PedidoRepository;
 import com.andersonvieira.binary.repositories.ProdutoRepository2;
 
 
@@ -42,6 +52,11 @@ public class DBService {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	
 	public void instantiateTestDatabase() throws ParseException {
@@ -158,9 +173,36 @@ public class DBService {
 		
 		clienteRepository.save(Arrays.asList(cli1, cli2));
 		enderecoRepository.save(Arrays.asList(e1, e2, e3));
-		
-		
-		
+
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+				
+				Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+				Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+				
+				Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+				ped1.setPagamento(pagto1);
+				
+				Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+				ped2.setPagamento(pagto2);
+				
+				cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+				
+				pedidoRepository.save(Arrays.asList(ped1, ped2));
+				pagamentoRepository.save(Arrays.asList(pagto1, pagto2));
+				
+				ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+				ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+				ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+				
+				ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+				ped2.getItens().addAll(Arrays.asList(ip3));
+				
+				p1.getItens().addAll(Arrays.asList(ip1));
+				p2.getItens().addAll(Arrays.asList(ip3));
+				p3.getItens().addAll(Arrays.asList(ip2));
+				
+				itemPedidoRepository.save(Arrays.asList(ip1, ip2, ip3));
 	
 	}
 }
+
