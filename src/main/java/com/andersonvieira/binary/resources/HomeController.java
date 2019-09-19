@@ -14,4 +14,12 @@ public class HomeController {
 		return "/home";
 	}
 
-}
+
+	@GetMapping("/auth/forgot/")
+	public String login() {
+	    return "/login";
+	}
+
+	
+
+	}
