@@ -1,8 +1,11 @@
 package com.andersonvieira.binary.dto;
 
 import java.io.Serializable;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
+
 import com.andersonvieira.binary.domain.Produto;
 import com.andersonvieira.binary.services.validation.ProdutoUpdate;
 
@@ -17,6 +20,7 @@ public class ProdutoDTO implements Serializable {
 	private String nome;
 	
 	@NotEmpty(message="Preenchimento obrigatório")
+	@Range(min=0, max=9000)
 	private Double preco;
 
 	
