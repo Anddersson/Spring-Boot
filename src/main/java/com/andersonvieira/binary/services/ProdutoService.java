@@ -70,7 +70,8 @@ public class ProdutoService {
 		find(id);
 		try {
 			repo.delete(id);
-		} catch (DataIntegrityViolationException e) {
+		}
+		catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir porque há pedidos relacionados");
 		}
 	}
@@ -81,7 +82,7 @@ public class ProdutoService {
 	
 
 
-	public Page<Produto> search(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy, String direction) {
+	public Page<Produto> findPage(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		List<Categoria> categorias = categoriaRepository.findAll(ids);
 		return repo.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);	
